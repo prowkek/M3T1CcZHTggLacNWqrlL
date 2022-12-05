@@ -12,6 +12,7 @@
 // Historique du fichier:
 /*************************************************/
 
+#include "../include/types.h"
 
 // Nom :tirerNombreMystere
 // Rôle : Tire aléatoirement un nombre à deviner entre nbMin et nbMAx
@@ -77,4 +78,33 @@ int jouerPartie(int nbADeviner, int min, int max, int nbEssais)
 	}
 
 	return -1; // défaite
+}
+
+// Nom : initJoueur
+// Rôle : Créé un joueur et initialise toutes ses informations
+// Paramètres d'entrées : le joueur à définir
+// Paramètres d'entrée/sortie : le joueur
+
+TJoueur initJoueur(TJoueur joueurACreer, string nom)
+{
+	joueurACreer.nom = nom;
+	joueurACreer.nbPartiesGagnees = 0; // score du joueur
+	joueurACreer.nbPartiesJouees = 0; // nombre de parties jouées
+	return joueurACreer;
+}
+
+// Nom : initPartie
+// Rôle : Créé une partie et initialise toutes ses informations,
+//		  tire aléatoirement le nombre à deviner en appelant la fonction
+//		  tirerNombreMystere
+// Paramètres d'entrées : les limites min et max, le nombre d'essais max
+// Paramètres d'entrée/sortie : la partie
+
+TPartie initPartie(TPartie partieACreer, int min, int max, int nbEssais)
+{
+	partieACreer.min = min;
+	partieACreer.max = max;
+	partieACreer.nbEssais = nbEssais;
+	partieACreer.nbADeviner = tirerNombreMystere(min, max);
+	return partieACreer;
 }

@@ -28,3 +28,19 @@ int tirerNombreMystere(int nbMin, int nbMax);
 //                      si la partie est gagnée, la valeur de retour est le nombre d'essais utilisés pour trouver le nombre
 
 int jouerPartie(int nbADeviner, int min, int max, int nbEssais);
+
+// Nom : initJoueur
+// Rôle : Créé un joueur et initialise toutes ses informations
+// Paramètres d'entrées : le nom du joueur
+// Paramètres d'entrée/sortie : 
+
+void initJoueur(TJoueur joueurACreer, char un_nom);
+
+// Nom : initPartie
+// Rôle : Créé une partie et initialise toutes ses informations,
+//		  tire aléatoirement le nombre à deviner en appelant la fonction
+//		  tirerNombreMystere
+// Paramètres d'entrées : les limites min et max, le nombre d'essais max
+// Paramètres d'entrée/sortie :
+
+void initPartie(TPartie partieACreer, int min, int max, int nbEssais);
