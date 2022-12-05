@@ -1,8 +1,9 @@
 /*************************************************/
 // Nom du projet: Jeu du nombre à deviner
 // Nom du fichier: JeuNombreADeviner.h
-// Version : 1.0
+// Version : 1.1
 // Nom du programmeur: MP Pinaud
+//		       Lucien PARES
 // Date de création : 25/11/2022
 // Rôle du fichier: Contient la déclaration des fonctions concernant le jeu
 // Nom des composants utilises:
