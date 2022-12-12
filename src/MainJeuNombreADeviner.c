@@ -19,11 +19,9 @@
 
 int main()
 {
-	TJoueur joueur;
-	joueur.nbPartiesGagnees = 0; // score du joueur
-	joueur.nbPartiesJouees = 0; // nombre de parties jouées
+	TJoueur joueur = initJoueur(joueur);
 	
-	TPartie partie;
+	TPartie partie = initPartie(partie, 0, 10, 4);
 
 	float moyenne_coups = 0; // moyenne des tentatives sur l'ensemble des parties
 
@@ -36,16 +34,13 @@ int main()
 
 		printf("%s\n", "Vous allez jouer pour deviner un nombre secret");
 
-		// Appeler la fonction tirerNombreMystere pour tirer aléatoirement le nombre à deviner
-		partie.nbADeviner = tirerNombreMystere(0, 10);
-
 		printf("La partie commence.\n");
 		printf("Vous avez 4 essais pour deviner le nombre myst\x8Are compris entre 0 et 10\n");
 
 		// Appeler la fonction jouerPartie pour jouer et trouver le nombre mystère tiré précédemment
 		// le nombre à trouver est compris entre 0 et 10
 		// il ya 4 essais maximum possibles
-		int victoire = jouerPartie(partie.nbADeviner, 0, 10, 4);
+		int victoire = jouerPartie(partie);
 
 		// Afficher le résultat de la partie
 		if (victoire > -1)

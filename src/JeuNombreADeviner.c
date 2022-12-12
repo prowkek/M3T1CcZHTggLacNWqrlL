@@ -36,18 +36,16 @@ int tirerNombreMystere(int nbMin, int nbMax)
 
 // Nom :jouerPartie
 // Rôle : Fait jouer une partie à un joueur
-// Paramètres d'entrée: le nombre à deviner,
-//                      les limites min et max du nombre à deviner,
-//                      le nombre maximal d'essais possibles
+// Paramètres d'entrée: la partie
 // Valeur de retour :   si la partie est perdue, la valeur de retour est -1
 //                      si la partie est gagnée, la valeur de retour est le nombre d'essais utilisés pour trouver le nombre
 
-int jouerPartie(int nbADeviner, int min, int max, int nbEssais)
+int jouerPartie(TPartie partie)
 {
 	int saisie;
 
 	// Boucle jusqu'à ce que le joueur trouve le nombre ou échoue
-	for (int i = 0; i < nbEssais; i++)
+	for (int i = 0; i < partie.nbEssais; i++)
 	{
 		do // boucle si le nombre saisi dépasse l'intervalle fixé par min et max
 		{
@@ -55,23 +53,23 @@ int jouerPartie(int nbADeviner, int min, int max, int nbEssais)
 			scanf("%d", &saisie);
 
 			// Indices sur le nombre mystère
-			if (saisie < min || saisie > max)
+			if (saisie < partie.min || saisie > partie.max)
 			{
-				printf("Le nombre doit etre entre %d et %d.\n", min, max);
+				printf("Le nombre doit etre entre %d et %d.\n", partie.min, partie.max);
 			}
-			else if (saisie < nbADeviner)
+			else if (saisie < partie.nbADeviner)
             {
                 printf("Le nombre mystere est plus grand.\n");
             }
-            else if (saisie > nbADeviner)
+            else if (saisie > partie.nbADeviner)
             {
                 printf("Le nombre mystere est plus petit.\n");
             }
 		}
-		while (saisie < min || saisie > max);
+		while (saisie < partie.min || saisie > partie.max);
 
 		// Si le nombre saisi est égal au nombre mystère, c'est gagné
-		if (saisie == nbADeviner)
+		if (saisie == partie.nbADeviner)
 		{
 			return ++i; // renvoie le nombre d'essais
 		}
@@ -85,9 +83,10 @@ int jouerPartie(int nbADeviner, int min, int max, int nbEssais)
 // Paramètres d'entrées : le joueur à définir
 // Paramètres d'entrée/sortie : le joueur
 
-TJoueur initJoueur(TJoueur joueurACreer, string nom)
+TJoueur initJoueur(TJoueur joueurACreer)
 {
-	joueurACreer.nom = nom;
+	printf("Nom du joueur : ");
+	scanf("%s", joueurACreer.nom);
 	joueurACreer.nbPartiesGagnees = 0; // score du joueur
 	joueurACreer.nbPartiesJouees = 0; // nombre de parties jouées
 	return joueurACreer;
@@ -105,6 +104,9 @@ TPartie initPartie(TPartie partieACreer, int min, int max, int nbEssais)
 	partieACreer.min = min;
 	partieACreer.max = max;
 	partieACreer.nbEssais = nbEssais;
+	
+	// Appeler la fonction tirerNombreMystere pour tirer aléatoirement le nombre à deviner
 	partieACreer.nbADeviner = tirerNombreMystere(min, max);
+	
 	return partieACreer;
 }
