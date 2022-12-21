@@ -9,6 +9,9 @@
 // Nom des composants utilises: JeuNombreADeviner.h
 //                              stdio.h
 // Historique du fichier:
+/*
+ * Modification du fichier pour s'adapter au format 2 joueurs 
+ */
 /*************************************************/
 
 #include <stdio.h>
@@ -19,20 +22,31 @@
 
 int main()
 {
-	TJoueur joueur = initJoueur(joueur);
+	TJoueur joueur1;		// le premier joueur
+	TJoueur joueur2;		// le second joueur
+	TJoueur joueurCourant;	// joueur en train de jouer (1 ou 2)
 	
-	TPartie partie = initPartie(partie, 0, 10, 4);
+	TPartie partie;
 
-	float moyenne_coups = 0; // moyenne des tentatives sur l'ensemble des parties
+	int nbJoueurs;
+	int joueur = 1;
+	float moyenne_coups = 0; 		// moyenne des tentatives sur l'ensemble des parties
+	int boucle = 1; 				// la partie recommence si le joueur le souhaite
 
-	int boucle = 1; // la partie recommence si le joueur le souhaite
+	// Initialisation des deux joueurs
+    system("clear"); // Nettoyer la console
+	nbJoueurs = initJoueurs(joueur1, joueur2);
+	joueurCourant = joueur1;
 
 	while (boucle)
 	{
+		// Réinitialiser la partie
+		partie = initPartie(partie, 0, 10, 4);
+		
 	    // Nettoyer la console
-        system("cls");
+        system("clear");
 
-		printf("%s\n", "Vous allez jouer pour deviner un nombre secret");
+		printf("Joueur %d, vous allez jouer pour deviner un nombre secret.\n", joueur);
 
 		printf("La partie commence.\n");
 		printf("Vous avez 4 essais pour deviner le nombre myst\x8Are compris entre 0 et 10\n");
@@ -45,33 +59,73 @@ int main()
 		// Afficher le résultat de la partie
 		if (victoire > -1)
 		{
-			joueur.nbTentatives = victoire;
-			joueur.nbPartiesGagnees++; // incrémente le score du joueur de 1
-			printf("\nVous avez gagne en " GRN "%d" reset " essais !", joueur.nbPartiesGagnees);
+			joueurCourant.nbTentatives = victoire;
+			joueurCourant.nbPartiesGagnees++; // incrémente le score du joueur de 1
+			printf("\nVous avez gagne en " GRN "%d" reset " essais !", joueurCourant.nbPartiesGagnees);
 		}
 		else
 		{
-            joueur.nbTentatives = 4;
+            joueurCourant.nbTentatives = 4;
 			printf(RED "\nDommage..." reset);
 		}
 		printf("\nLe nombre mystere etait " YEL "%d.\n" reset, partie.nbADeviner);
 
 		// Incrémenter le nombres de parties jouées
-		joueur.nbPartiesJouees++;
+		joueurCourant.nbPartiesJouees++;
 
 		// Mettre à jour la moyenne des tentatives en fonctions des tentatives de cette partie
-		moyenne_coups = (moyenne_coups + joueur.nbTentatives) / joueur.nbPartiesJouees;
-
-		// Demander au joueur s'il veut rejouer
-		printf("Rejouer ?\n\n0 : non\n1 : oui\n\n");
-		scanf("%d", &boucle);
+		moyenne_coups = (moyenne_coups + joueurCourant.nbTentatives) / joueurCourant.nbPartiesJouees;
+		
+		// Changer de joueur
+		if (joueur == 1)
+		{
+			// Attendre le joueur 2
+			if (nbJoueurs == 2)
+			{
+				printf("Joueur 2, prêt ?\n0 : non\n1 : oui\n\n");
+			}
+			else
+			{
+				printf("Rejouer ?\n0 : non\n1 : oui\n\n");
+			}
+			scanf("%d", &boucle);
+			
+			// Attribuer les valeurs du joueur courant au joueur 1
+			joueur1 = joueurCourant;
+			
+			if (boucle)
+			{
+				// Définir le joueur 2 comme joueur courant
+				if (nbJoueurs == 2)
+				{
+					joueurCourant = joueur2;
+					joueur++;
+				}
+			}
+		}
+		else if (joueur == 2)
+		{
+			// Demander une nouvelle partie
+			printf("Joueur 1, rejouer ?\n\n0 : non\n1 : oui\n\n");
+			scanf("%d", &boucle);
+			
+			joueur2 = joueurCourant;
+			joueur--;
+		}
 	}
 
 	// Nettoyer la console
-	system("cls");
+	system("clear");
 
-	printf("Vous avez joue " MAG "%d" reset " parties dont " CYN "%d" reset " gagnees.", joueur.nbPartiesJouees, joueur.nbPartiesGagnees);
-    printf("\nLa moyenne des tentatives est de " YEL "%.1f" reset " tentatives.\n", moyenne_coups);
+	printf("Statistiques du joueur 1 :\n");
+	printf("- " MAG "%d" reset " parties jouees\n", joueur1.nbPartiesJouees);
+	printf("- " CYN "%d" reset " parties gagnees\n", joueur1.nbPartiesGagnees);
+
+	printf("\nStatistiques du joueur 2 :\n");
+	printf("- " MAG "%d" reset " parties jouees\n", joueur2.nbPartiesJouees);
+	printf("- " CYN "%d" reset " parties gagnees\n", joueur1.nbPartiesGagnees);
+	
+    printf("\nLa moyenne des tentatives des deux joueurs est de " YEL "%.1f" reset " tentatives.\n", moyenne_coups);
 
 	return 0;
 }

@@ -13,10 +13,9 @@
 
 // Nom : initJoueur
 // Rôle : Créé un joueur et initialise toutes ses informations
-// Paramètres d'entrées : le nom du joueur
+// Paramètres d'entrées : le nom du joueur, le numéro du joueur (1 ou 2)
 // Paramètres d'entrée/sortie : 
-
-TJoueur initJoueur(TJoueur joueurACreer);
+TJoueur initJoueur(TJoueur joueurACreer, int numero);
 
 // Nom : initPartie
 // Rôle : Créé une partie et initialise toutes ses informations,
@@ -24,14 +23,18 @@ TJoueur initJoueur(TJoueur joueurACreer);
 //		  tirerNombreMystere
 // Paramètres d'entrées : les limites min et max, le nombre d'essais max
 // Paramètres d'entrée/sortie :
-
 TPartie initPartie(TPartie partieACreer, int min, int max, int nbEssais);
+
+// Nom : initJoueurs
+// Rôle : Initialise le ou les joueurs en fonction du choix de l'utilisateur
+// Paramètres d'entrées : les deux joueurs à définir
+// Paramètres d'entrée/sortie : le nombre de joueurs
+int initJoueurs(TJoueur joueur1, TJoueur joueur2);
 
 // Nom :tirerNombreMystere
 // Rôle : Tire aléatoirement un nombre à deviner entre nbMin et nbMAx
 // Paramètres d'entrée: nbMin, nbMAx : limites du nombre à deviner
 // Valeur de retour : nombre à deviner
-
 int tirerNombreMystere(int nbMin, int nbMax);
 
 
@@ -40,5 +43,4 @@ int tirerNombreMystere(int nbMin, int nbMax);
 // Paramètres d'entrée: la partie
 // Valeur de retour :   si la partie est perdue, la valeur de retour est -1
 //                      si la partie est gagnée, la valeur de retour est le nombre d'essais utilisés pour trouver le nombre
-
 int jouerPartie(TPartie partie);

@@ -18,7 +18,6 @@
 // Rôle : Tire aléatoirement un nombre à deviner entre nbMin et nbMAx
 // Paramètres d'entrée: nbMin, nbMAx : limites du nombre à deviner
 // Valeur de retour : nombre à deviner
-
 int tirerNombreMystere(int nbMin, int nbMax)
 {
 
@@ -39,7 +38,6 @@ int tirerNombreMystere(int nbMin, int nbMax)
 // Paramètres d'entrée: la partie
 // Valeur de retour :   si la partie est perdue, la valeur de retour est -1
 //                      si la partie est gagnée, la valeur de retour est le nombre d'essais utilisés pour trouver le nombre
-
 int jouerPartie(TPartie partie)
 {
 	int saisie;
@@ -80,16 +78,46 @@ int jouerPartie(TPartie partie)
 
 // Nom : initJoueur
 // Rôle : Créé un joueur et initialise toutes ses informations
-// Paramètres d'entrées : le joueur à définir
+// Paramètres d'entrées : le joueur à définir, le numéro du joueur (1 ou 2)
 // Paramètres d'entrée/sortie : le joueur
-
-TJoueur initJoueur(TJoueur joueurACreer)
+TJoueur initJoueur(TJoueur joueurACreer, int numero)
 {
-	printf("Nom du joueur : ");
+	printf("Nom du joueur %d : ", numero);
 	scanf("%s", joueurACreer.nom);
 	joueurACreer.nbPartiesGagnees = 0; // score du joueur
 	joueurACreer.nbPartiesJouees = 0; // nombre de parties jouées
 	return joueurACreer;
+}
+
+// Nom : initJoueurs
+// Rôle : Initialise le ou les joueurs en fonction du choix de l'utilisateur
+// Paramètres d'entrées : les deux joueurs à définir
+// Paramètres d'entrée/sortie : le nombre de joueurs
+int initJoueurs(TJoueur joueur1, TJoueur joueur2)
+{		
+	int nbJoueurs = 1; // nombre de joueurs
+	
+	do
+    {
+		printf("1 joueur ou 2 joueurs ? ");
+		scanf("%d", &nbJoueurs);
+		if (nbJoueurs < 1 || nbJoueurs > 2)
+		{
+			printf("Le nombre de joueurs doit être égal à 1 ou 2.\n");
+		}
+		else if (nbJoueurs >= 1)
+		{
+			joueur1 = initJoueur(joueur1, 1);
+				
+			if (nbJoueurs == 2)
+			{
+				joueur2 = initJoueur(joueur2, 2);
+			}
+		}
+	}
+	while (nbJoueurs < 1 || nbJoueurs > 2);	
+	
+	return nbJoueurs;
 }
 
 // Nom : initPartie
@@ -98,7 +126,6 @@ TJoueur initJoueur(TJoueur joueurACreer)
 //		  tirerNombreMystere
 // Paramètres d'entrées : les limites min et max, le nombre d'essais max
 // Paramètres d'entrée/sortie : la partie
-
 TPartie initPartie(TPartie partieACreer, int min, int max, int nbEssais)
 {
 	partieACreer.min = min;
